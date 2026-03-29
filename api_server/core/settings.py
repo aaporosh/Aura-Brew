@@ -197,3 +197,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# Fix for WhiteNoise MissingFileError (specifically for Jazzmin's missing .map files)
+WHITENOISE_MANIFEST_STRICT = False
