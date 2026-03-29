@@ -2,7 +2,17 @@
 
 > "Freshly Brewed Elegance in every cup."
 
-Aura Brew is a premium, full-stack coffee shop application designed with a focus on high-end aesthetics and seamless functionality. This project bridges a stunning **Flutter** mobile frontend with a robust **Django REST API** backend.
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/aaporosh/Aura-Brew?color=orange&label=Latest%20APK&logo=android&style=for-the-badge)](https://github.com/aaporosh/Aura-Brew/releases/latest)
+
+---
+
+## 📱 Quick App Installation (Android)
+To get the Aura Brew experience on your phone immediately:
+
+1.  **Download**: Click the **[Latest APK](https://github.com/aaporosh/Aura-Brew/releases/latest)** button above.
+2.  **Install**: Open the downloaded `.apk` file.
+3.  **Permissions**: If prompted, allow "Install from Unknown Sources".
+4.  **Login**: Use the pre-configured admin credentials provided by the developer.
 
 ---
 
@@ -78,7 +88,7 @@ flutter run
 ## 🌎 Live Deployment Summary
 
 ### 🔌 API Hosting (Render)
-- **URL:** Managed via Render web services.
+- **URL:** [https://aura-brew.onrender.com](https://aura-brew.onrender.com)
 - **Database:** Serverless PostgreSQL via Neon.tech.
 
 ### 📱 Distribution

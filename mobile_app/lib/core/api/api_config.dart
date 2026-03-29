@@ -3,8 +3,7 @@ class ApiConfig {
   ApiConfig._();
 
   /// Base URL for the Django backend.
-  /// Change this to your machine's IP when testing on a physical device.
-  static const String baseUrl = 'http://192.168.0.103:8000'; // Physical device IP
+  static const String baseUrl = 'https://aura-brew.onrender.com';
   // static const String baseUrl = 'http://10.0.2.2:8000'; // Android emulator
   // static const String baseUrl = 'http://192.168.x.x:8000'; // physical device
 
