@@ -18,6 +18,15 @@ DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
+# CSRF Trusted Origins for Render (Mandatory for Django 4.0+)
+CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host != '*']
+if os.environ.get('RENDER_EXTERNAL_URL'):
+    CSRF_TRUSTED_ORIGINS.append(os.environ.get('RENDER_EXTERNAL_URL'))
+
+# Standard Render Proxy Header
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = os.environ.get('DEBUG', 'True').lower() == 'false'
+
 # ---------- Installed Apps ----------
 INSTALLED_APPS = [
     'jazzmin',  # Must be before admin
@@ -143,11 +152,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# ---------- Database (PostgreSQL) ----------
 DATABASES = {
     'default': dj_database_url.config(
         default=f"postgres://{os.environ.get('DB_USER', 'postgres')}:{os.environ.get('DB_PASSWORD', 'postgres')}@{os.environ.get('DB_HOST', 'localhost')}:{os.environ.get('DB_PORT', '5432')}/{os.environ.get('DB_NAME', 'aurabrew_db')}",
-        conn_max_age=600
+        conn_max_age=600,
+        ssl_require=True if os.environ.get('DEBUG', 'True').lower() == 'false' else False
     )
 }
 
@@ -194,9 +203,6 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
-
-# Fix for WhiteNoise MissingFileError (specifically for Jazzmin's missing .map files)
-WHITENOISE_MANIFEST_STRICT = False
