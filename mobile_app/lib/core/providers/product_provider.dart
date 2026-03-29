@@ -12,6 +12,7 @@ class ProductProvider extends ChangeNotifier {
   List<ToppingModel> _toppings = [];
   List<StoreModel> _stores = [];
   bool _isLoading = false;
+  bool _isProductsLoading = false;
   String _searchQuery = '';
   List<ProductModel> _searchResults = [];
 
@@ -23,6 +24,7 @@ class ProductProvider extends ChangeNotifier {
   List<ToppingModel> get toppings => _toppings;
   List<StoreModel> get stores => _stores;
   bool get isLoading => _isLoading;
+  bool get isProductsLoading => _isProductsLoading;
   String get searchQuery => _searchQuery;
 
   /// Load all initial data.
@@ -56,7 +58,7 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> loadProducts({int? categoryId}) async {
     _products = []; // Clear current list to show shimmer immediately
-    _isLoading = true;
+    _isProductsLoading = true;
     notifyListeners();
     try {
       String url = ApiConfig.products;
@@ -68,7 +70,7 @@ class ProductProvider extends ChangeNotifier {
           .toList();
     } catch (_) {
     } finally {
-      _isLoading = false;
+      _isProductsLoading = false;
       notifyListeners();
     }
   }

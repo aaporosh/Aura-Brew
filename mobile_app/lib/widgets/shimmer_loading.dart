@@ -9,8 +9,9 @@ class ShimmerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AppColors.divider.withValues(alpha: 0.5),
-      highlightColor: AppColors.white.withValues(alpha: 0.2),
+      baseColor: Colors.grey[200]!,
+      highlightColor: Colors.grey[50]!,
+      period: const Duration(milliseconds: 1500),
       child: child,
     );
   }
@@ -39,48 +40,63 @@ class ProductCardSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShimmerLoading(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent, // Remove solid white background
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.divider.withValues(alpha: 0.3), width: 0.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image part
+          Expanded(
+            flex: 3,
+            child: ShimmerLoading(
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(width: 80, height: 12, color: Colors.white),
-                    const SizedBox(height: 8),
-                    Container(width: 60, height: 10, color: Colors.white),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 40, height: 14, color: Colors.white),
-                        Container(width: 24, height: 24, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
-                      ],
-                    ),
-                  ],
-                ),
+          ),
+          // Info part
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerLoading(
+                    child: Container(width: 80, height: 12, color: Colors.white),
+                  ),
+                  const SizedBox(height: 6),
+                  ShimmerLoading(
+                    child: Container(width: 60, height: 10, color: Colors.white),
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ShimmerLoading(
+                        child: Container(width: 40, height: 14, color: Colors.white),
+                      ),
+                      ShimmerLoading(
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -94,9 +110,9 @@ class BannerSkeleton extends StatelessWidget {
     return ShimmerLoading(
       child: Container(
         width: double.infinity,
-        height: 160,
+        height: 190,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white.withValues(alpha: 0.5), // Semi-transparent
           borderRadius: BorderRadius.circular(20),
         ),
       ),

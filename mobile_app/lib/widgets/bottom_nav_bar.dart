@@ -14,23 +14,35 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 94,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.bottomCenter,
-        children: [
-          // Custom Notched Background with Multiple Shadows
-          CustomPaint(
-            size: Size(MediaQuery.of(context).size.width, 70),
-            painter: NotchedBottomPainter(),
-          ),
-          
-          // Navigation Items
-          SizedBox(
-            height: 70,
-            child: SafeArea(
-              top: false,
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
+    const double baseHeight = 70.0;
+    const double floatingButtonOffset = 24.0;
+
+    return Container(
+      color: AppColors.scaffoldBg, // Match background to avoid white gap
+      child: SizedBox(
+        height: baseHeight + floatingButtonOffset + bottomPadding,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
+          children: [
+            // Custom Notched Background
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: CustomPaint(
+                size: Size(MediaQuery.of(context).size.width, baseHeight + bottomPadding),
+                painter: NotchedBottomPainter(bottomPadding: bottomPadding),
+              ),
+            ),
+            
+            // Navigation Items
+            Positioned(
+              bottom: bottomPadding,
+              left: 0,
+              right: 0,
+              height: baseHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
@@ -45,14 +57,14 @@ class BottomNavBar extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          
-          // Floating Center Button
-          Positioned(
-            top: 0,
-            child: _buildCenterButton(),
-          ),
-        ],
+            
+            // Floating Center Button
+            Positioned(
+              bottom: bottomPadding + (baseHeight / 2) - 10,
+              child: _buildCenterButton(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -131,6 +143,10 @@ class BottomNavBar extends StatelessWidget {
 }
 
 class NotchedBottomPainter extends CustomPainter {
+  final double bottomPadding;
+
+  NotchedBottomPainter({required this.bottomPadding});
+
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
