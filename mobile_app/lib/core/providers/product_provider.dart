@@ -55,6 +55,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<void> loadProducts({int? categoryId}) async {
+    _products = []; // Clear current list to show shimmer immediately
     _isLoading = true;
     notifyListeners();
     try {

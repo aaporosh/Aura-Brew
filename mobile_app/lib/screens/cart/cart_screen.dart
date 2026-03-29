@@ -39,16 +39,15 @@ class _CartScreenState extends State<CartScreen> {
 
     if (order != null) {
       await cartProv.loadCart();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Order #${order.id} placed! Earned ${order.beansEarned} beans 🫘',
-          ),
-          backgroundColor: Colors.green.shade700,
-          behavior: SnackBarBehavior.floating,
-        ),
+      if (!mounted) return;
+      
+      // Navigate to success screen and clear stack
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        '/order-success', 
+        (route) => false,
+        arguments: order,
       );
-      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

@@ -362,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Use featured products if no category selected, otherwise use category products
     final displayProducts = _selectedCategory == -1 ? pp.featured : pp.products;
 
-    if (pp.isLoading && displayProducts.isEmpty) {
+    if (pp.isLoading) {
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

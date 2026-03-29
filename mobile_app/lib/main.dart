@@ -19,6 +19,8 @@ import 'screens/feedback/feedback_screen.dart';
 import 'screens/profile/addresses_screen.dart';
 import 'screens/profile/rewards_screen.dart';
 import 'screens/settings/settings_screen.dart';
+import 'screens/orders/order_success_screen.dart';
+import 'core/models/models.dart';
 
 void main() {
   runApp(const AuraBrewApp());
@@ -56,6 +58,10 @@ class AuraBrewApp extends StatelessWidget {
           '/rewards': (_) => const RewardsScreen(),
           '/settings': (_) => const SettingsScreen(),
           '/addresses': (_) => const AddressesScreen(),
+          '/order-success': (context) {
+            final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
+            return OrderSuccessScreen(order: order);
+          },
         },
       ),
     );
