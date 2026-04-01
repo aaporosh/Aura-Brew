@@ -79,4 +79,9 @@ class CartProvider extends ChangeNotifier {
       notifyListeners();
     } catch (_) {}
   }
+
+  void clearLocalCart() {
+    _cart = CartModel(id: _cart?.id ?? 0, items: [], total: 0, itemCount: 0);
+    notifyListeners();
+  }
 }

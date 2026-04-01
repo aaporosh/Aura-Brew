@@ -30,7 +30,6 @@ class _CartScreenState extends State<CartScreen> {
   Future<void> _placeOrder() async {
     final orderProv = context.read<OrderProvider>();
     final cartProv = context.read<CartProvider>();
-    final storeProv = context.read<ProductProvider>();
 
     final storeId = _selectedStoreId;
     final order = await orderProv.placeOrder(storeId: storeId);
@@ -38,8 +37,8 @@ class _CartScreenState extends State<CartScreen> {
     if (!mounted) return;
 
     if (order != null) {
-      await cartProv.loadCart();
-      if (!mounted) return;
+      // Clear cart locally first so UI updates immediately
+      cartProv.clearLocalCart();
       
       // Navigate to success screen and clear stack
       Navigator.pushNamedAndRemoveUntil(
@@ -48,6 +47,9 @@ class _CartScreenState extends State<CartScreen> {
         (route) => false,
         arguments: order,
       );
+
+      // Reload cart in background to sync with server
+      cartProv.loadCart();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -62,6 +64,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final cartProv = context.watch<CartProvider>();
+    final orderProv = context.watch<OrderProvider>();
     final cart = cartProv.cart;
     final items = cart?.items ?? [];
 
@@ -148,6 +151,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: CustomButton(
                       text: 'PLACE ORDER',
                       icon: Icons.arrow_forward,
+                      isLoading: orderProv.isLoading,
                       onPressed: _placeOrder,
                     ),
                   ),

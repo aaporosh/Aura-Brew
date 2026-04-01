@@ -25,6 +25,8 @@ class OrderProvider extends ChangeNotifier {
     int? storeId,
     String paymentMethod = 'card',
   }) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final body = <String, dynamic>{
         'payment_method': paymentMethod,
@@ -33,9 +35,12 @@ class OrderProvider extends ChangeNotifier {
       final data = await ApiClient.post(ApiConfig.placeOrder, body: body);
       final order = OrderModel.fromJson(data);
       _orders.insert(0, order);
+      _isLoading = false;
       notifyListeners();
       return order;
     } catch (_) {
+      _isLoading = false;
+      notifyListeners();
       return null;
     }
   }
